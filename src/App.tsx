@@ -5,13 +5,13 @@ import {createTheme, MantineProvider} from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
 import LoginButton from "./LoginButton.tsx";
 import {AuthProvider} from "./AuthContext.tsx";
+import {ThemeSwitchButton} from "./ThemeSwitchButton.tsx";
 
 const theme = createTheme({
     fontFamily: 'Open Sans, serif',
     primaryColor: 'violet',
-    primaryShade: 6,
+    primaryShade: { light: 4, dark: 7 },
     defaultRadius : 'lg',
-
 });
 
 export default function App() {
@@ -19,7 +19,10 @@ export default function App() {
     <AuthProvider>
         <MantineProvider defaultColorScheme="dark" theme={theme}>
             <ModalsProvider>
-                <LoginButton />
+                <div className="app">
+                    <ThemeSwitchButton />
+                    <LoginButton />
+                </div>
             </ModalsProvider>
         </MantineProvider>
     </AuthProvider>
