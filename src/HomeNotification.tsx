@@ -10,8 +10,8 @@ export function HomeNotification() {
     useEffect(() => {
         if (loginSuccess === 'true') {
             const id = notifications.show({
-                title: 'Login success',
-                message: 'You have been logged in successfully',
+                title: 'Powodzenie logowania',
+                message: 'Zostałeś pomyślnie zalogowany/a',
                 position: 'top-left',
                 autoClose: 2000,
             });

@@ -16,11 +16,14 @@
     "@mantine/hooks": "^7.16.2",
     "@mantine/modals": "^7.16.2",
     "@mantine/notifications": "^7.16.2",
+    "@reduxjs/toolkit": "^2.5.1",
     "@tabler/icons-react": "^3.29.0",
     "dayjs": "^1.11.13",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router": "^7.1.5"
+    "react-redux": "^9.2.0",
+    "react-router": "^7.1.5",
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
