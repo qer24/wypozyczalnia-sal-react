@@ -6,6 +6,8 @@ import { ModalsProvider } from '@mantine/modals';
 import LoginButton from "./LoginButton.tsx";
 import {AuthProvider} from "./AuthContext.tsx";
 import {ThemeSwitchButton} from "./ThemeSwitchButton.tsx";
+import {Route, Routes} from "react-router";
+import {LoginForm} from "./LoginForm.tsx";
 
 const theme = createTheme({
     fontFamily: 'Open Sans, serif',
@@ -19,10 +21,16 @@ export default function App() {
     <AuthProvider>
         <MantineProvider defaultColorScheme="dark" theme={theme}>
             <ModalsProvider>
-                <div className="app">
-                    <ThemeSwitchButton />
-                    <LoginButton />
-                </div>
+                <Routes>
+                    <Route path="/" element={
+                        <div className="bar">
+                            <ThemeSwitchButton />
+                            <LoginButton />
+                        </div>
+                    } />
+
+                    <Route path="login" element={<LoginForm />} />
+                </Routes>
             </ModalsProvider>
         </MantineProvider>
     </AuthProvider>

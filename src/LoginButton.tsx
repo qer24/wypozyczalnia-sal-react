@@ -1,21 +1,19 @@
 ﻿import {IconLogin} from "@tabler/icons-react";
 import {Button} from "@mantine/core";
-import {modals} from "@mantine/modals";
-import {LoginForm} from "./LoginForm.tsx";
 import {useAuth} from "./AuthContext.tsx";
+import { useNavigate } from "react-router";
 
 export default function LoginButton() {
     const { user, logout } = useAuth();
+    const navigate = useNavigate();
 
-    const openLoginModal = () => modals.open({
-        title: 'Logowanie',
-        children: <LoginForm />,
-    });
+    const openLoginModal = () => {
+        navigate('/login'); // Navigate to login route
+    };
 
     const handleLogout = () => {
         logout();
-        modals.closeAll();
-        // navigate('/') if using routing
+        navigate('/'); // Redirect to home after logout
     };
 
     if (user)
