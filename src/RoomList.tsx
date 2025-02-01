@@ -1,19 +1,46 @@
-﻿import {ActionIcon, Group, Table} from "@mantine/core";
+﻿import {ActionIcon, Group, Table, TextInput} from "@mantine/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "./store.tsx";
-import {IconEdit, IconTrash} from "@tabler/icons-react";
+import {IconEdit, IconEye, IconSearch, IconTrash} from "@tabler/icons-react";
 import {Room} from "./interfaces/room.tsx";
 import {Amenity} from "./interfaces/amenity.tsx";
 import {ShowModalButton} from "./ShowModalButton.tsx";
 import {RoomForm} from "./RoomForm.tsx";
 import {modals} from "@mantine/modals";
 import {useAuth} from "./AuthContext.tsx";
+import {useMemo, useState} from "react";
 
 export function RoomList() {
     const rooms = useSelector((state: RootState) => state.rooms);
     const amenities = useSelector((state: RootState) => state.amenities);
     const dispatch = useDispatch();
     const { user } = useAuth();
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const filteredRooms = useMemo(() => {
+        return rooms.filter((room) => {
+            const lowerQuery = searchQuery.toLowerCase();
+
+            let amenityNames = "";
+            if (room.udogodnienia)
+            {
+                amenityNames = room.udogodnienia
+                    .map((amenity) => {
+                        const foundAmenity = amenities.find((a) => a.id === amenity.id);
+                        return foundAmenity ? foundAmenity.name : "";
+                    })
+                    .join(" ")
+                    .toLowerCase();
+            }
+
+            return (
+                room.id.toString().includes(searchQuery) ||
+                room.nazwa.toLowerCase().includes(lowerQuery) ||
+                room.pojemnosc.toString().includes(searchQuery) ||
+                amenityNames.includes(lowerQuery)
+            );
+        });
+    }, [rooms, amenities, searchQuery]);
 
     const getUdogodnienia = (room: Room) => {
         console.log(room.udogodnienia);
@@ -34,7 +61,7 @@ export function RoomList() {
         ));
     }
 
-    const rows = rooms.map(room => (
+    const rows = filteredRooms.map(room => (
         <Table.Tr key={room.id}>
             <Table.Td>{room.id}</Table.Td>
             <Table.Td>{room.nazwa}</Table.Td>
@@ -45,6 +72,7 @@ export function RoomList() {
             <Table.Td>
                 {user && (
                     <Group>
+                        <ShowModalButton modalChildren={ null } buttonIcon={ <IconEye /> } modalTitle={room.nazwa}/>
                         <ShowModalButton modalChildren={ <RoomForm
                             onSubmit={(values: any) => onEdit(values, room)}
                             existingRoom={room}
@@ -80,17 +108,29 @@ export function RoomList() {
     }
 
     return (
-        <Table withTableBorder withColumnBorders>
-            <Table.Thead>
-                <Table.Tr>
-                    <Table.Th>ID</Table.Th>
-                    <Table.Th>Nazwa</Table.Th>
-                    <Table.Th>Pojemność</Table.Th>
-                    <Table.Th>Udogodnienia</Table.Th>
-                    <Table.Th>Akcje</Table.Th>
-                </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>{rows}</Table.Tbody>
-        </Table>
+        <>
+            <Group justify='start'>
+                <p>Szukaj</p>
+                <TextInput
+                    placeholder="Wpisz aby wyszukać..."
+                    value={searchQuery}
+                    onChange={(event) => setSearchQuery(event.currentTarget.value)}
+                    rightSection={<IconSearch />}
+                    rightSectionPointerEvents="none"
+                />
+            </Group>
+            <Table withColumnBorders>
+                <Table.Thead>
+                    <Table.Tr>
+                        <Table.Th>ID</Table.Th>
+                        <Table.Th>Nazwa</Table.Th>
+                        <Table.Th>Pojemność</Table.Th>
+                        <Table.Th>Udogodnienia</Table.Th>
+                        <Table.Th>Akcje</Table.Th>
+                    </Table.Tr>
+                </Table.Thead>
+                <Table.Tbody>{rows}</Table.Tbody>
+            </Table>
+        </>
     );
 }

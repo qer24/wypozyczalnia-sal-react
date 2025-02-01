@@ -7,10 +7,12 @@ import {Group} from "@mantine/core";
 import {IconLibraryPlus} from "@tabler/icons-react";
 import {AmenityForm} from "./AmenityForm.tsx";
 import {modals} from "@mantine/modals";
+import {useAuth} from "./AuthContext.tsx";
 
 export function AmenitiesList() {
     const amenities = useSelector((state: RootState) => state.amenities);
     const dispatch = useDispatch();
+    const { user } = useAuth();
 
     function handleDelete(id: number) {
         console.log(`Deleting amenity with id ${id}`);
@@ -69,15 +71,17 @@ export function AmenitiesList() {
                     </li>
                 ))}
             </ul>
-            <Group justify="center">
-                <ShowModalButton
-                    modalTitle='Nowe udogodnienie'
-                    modalChildren={
-                        <AmenityForm onSubmit={onFormAdd} buttonLabel='Dodaj' buttonIcon={ <IconLibraryPlus/> }/>
-                    }
-                    buttonText={"Nodaj nowe"}
-                    buttonIcon={ <IconLibraryPlus/> }/>
-            </Group>
+            {user && (
+                <Group justify="center">
+                    <ShowModalButton
+                        modalTitle='Nowe udogodnienie'
+                        modalChildren={
+                            <AmenityForm onSubmit={onFormAdd} buttonLabel='Dodaj' buttonIcon={ <IconLibraryPlus/> }/>
+                        }
+                        buttonText={"Nodaj nowe"}
+                        buttonIcon={ <IconLibraryPlus/> }/>
+                </Group>
+            )}
         </>
     );
 }
