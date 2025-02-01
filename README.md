@@ -51,7 +51,7 @@ This is a Room Management Application built with React, TypeScript, and Redux. I
 - `src/RoomDetails.tsx`: Component for displaying room details.
 - `src/RoomReservationsList.tsx`: Component for listing and managing room reservations.
 - `src/RoomReservationForm.tsx`: Form component for adding a new reservation.
-- `src/assets/react.svg`: SVG asset for the React logo.
+- `src/RoomList.tsx`: Component for listing rooms.
 
 ## Contributing
 
