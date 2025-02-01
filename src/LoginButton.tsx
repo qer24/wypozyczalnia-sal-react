@@ -3,7 +3,7 @@ import {Button} from "@mantine/core";
 import {useAuth} from "./AuthContext.tsx";
 import { useNavigate } from "react-router";
 
-export default function LoginButton() {
+export function LoginButton() {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
 

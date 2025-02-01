@@ -21,14 +21,14 @@ export function LoginForm() {
     const onFormSubmit = (values: any) => {
         if (values.login === 'admin' && values.password === 'password') {
             login(values.login);
-            navigate('/');
+            navigate('/?login-success=true'); // Simple query string
         } else {
             form.setErrors({
                 login: 'Invalid credentials',
                 password: 'Invalid credentials'
             });
         }
-    }
+    };
 
     return (
         <Container size="15%">
