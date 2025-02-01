@@ -49,6 +49,7 @@ export default function App() {
                                         modalChildren={ <AmenitiesList /> }
                                         buttonIcon={ <IconFileInfo /> }
                                         buttonText='Przeglądaj udogodnienia'
+                                        size='lg'
                                     />
                                 </div>
                             </Stack>

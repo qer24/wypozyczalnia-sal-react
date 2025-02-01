@@ -7,14 +7,17 @@ interface ShowModalButtonProps {
     modalChildren: ReactNode;
     buttonIcon?: ReactNode;
     buttonText: string;
+    size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
-export function ShowModalButton({ modalTitle, modalChildren, buttonIcon, buttonText }: ShowModalButtonProps) {
-    const openPropsModal = () => modals.open({
-        title: <strong>{modalTitle}</strong>,
-        children: modalChildren,
-        size: 'lg'
-    });
+export function ShowModalButton({ modalTitle, modalChildren, buttonIcon, buttonText, size }: ShowModalButtonProps) {
+    const openPropsModal = () => {
+        modals.open({
+            title: <strong>{modalTitle}</strong>,
+            children: modalChildren,
+            size: size,
+        });
+    };
 
     return (
         <Button rightSection={buttonIcon} onClick={openPropsModal}>{buttonText}</Button>

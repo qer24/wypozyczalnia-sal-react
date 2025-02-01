@@ -2,6 +2,11 @@
 import { RootState } from './store';
 import { Amenity } from './interfaces/amenity.tsx'
 import {AmenityItem} from "./AmenityItem.tsx";
+import {ShowModalButton} from "./ShowModalButton.tsx";
+import {Group} from "@mantine/core";
+import {IconLibraryPlus} from "@tabler/icons-react";
+import {AmenityForm} from "./AmenityForm.tsx";
+import {modals} from "@mantine/modals";
 
 export function AmenitiesList() {
     const amenities = useSelector((state: RootState) => state.amenities);
@@ -16,8 +21,24 @@ export function AmenitiesList() {
         console.log(`Editing amenity with id ${id}`);
     }
 
+    const onFormAdd = (values: any) => {
+        console.log('Adding amenity', values);
+        const newAmenity: Amenity = {
+            id: 0,
+            name: values.name,
+            description: values.description,
+        }
+        dispatch({ type: 'ADD_AMENITY', payload: newAmenity });
+        modals.closeAll();
+        modals.open({
+            title: <strong>Udogodnienia</strong>,
+            children: <AmenitiesList />,
+            size: 'lg',
+        });
+    }
+
     return (
-        <div>
+        <>
             <ul>
                 {amenities.map((amenity: Amenity) => (
                     <li key={amenity.id}>
@@ -25,6 +46,15 @@ export function AmenitiesList() {
                     </li>
                 ))}
             </ul>
-        </div>
+            <Group justify="center">
+                <ShowModalButton
+                    modalTitle='Nowe udogodnienie'
+                    modalChildren={
+                        <AmenityForm onSubmit={onFormAdd} buttonLabel='Dodaj' buttonIcon={ <IconLibraryPlus/> }/>
+                    }
+                    buttonText={"Nodaj nowe"}
+                    buttonIcon={ <IconLibraryPlus/> }/>
+            </Group>
+        </>
     );
 }

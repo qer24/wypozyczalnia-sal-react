@@ -38,8 +38,13 @@ type AmenityAction = AddAmenityAction | RemoveAmenityAction | UpdateAmenityActio
 // Amenities reducer
 const amenities = (state = initialAmenitiesState, action: AmenityAction | Action): Amenity[] => {
     switch (action.type) {
-        case 'ADD_AMENITY':
-            return [...state, (action as AddAmenityAction).payload];
+        case 'ADD_AMENITY': {
+            // Compute new ID by taking the maximum current id and adding 1.
+            const newId = state.length > 0 ? Math.max(...state.map(a => a.id)) + 1 : 1;
+            const newAmenity = (action as AddAmenityAction).payload;
+            newAmenity.id = newId;
+            return [...state, { ...(newAmenity), id: newId }];
+        }
         case 'REMOVE_AMENITY':
             return state.filter(amenity => amenity.id !== (action as RemoveAmenityAction).payload.id);
         case 'UPDATE_AMENITY':
@@ -72,8 +77,13 @@ type ReservationAction = AddReservationAction | RemoveReservationAction | Update
 // Reservations reducer
 const reservations = (state = initialReservationsState, action: ReservationAction | Action): Reservation[] => {
     switch (action.type) {
-        case 'ADD_RESERVATION':
-            return [...state, (action as AddReservationAction).payload];
+        case 'ADD_RESERVATION': {
+            // Compute new ID by taking the maximum current id and adding 1.
+            const newId = state.length > 0 ? Math.max(...state.map(r => r.id)) + 1 : 1;
+            const newReservation = (action as AddReservationAction).payload;
+            newReservation.id = newId;
+            return [...state, { ...(newReservation), id: newId }];
+        }
         case 'REMOVE_RESERVATION':
             return state.filter(reservation => reservation.id !== (action as RemoveReservationAction).payload.id);
         case 'UPDATE_RESERVATION':
@@ -106,8 +116,13 @@ type RoomAction = AddRoomAction | RemoveRoomAction | UpdateRoomAction;
 // Rooms reducer
 const rooms = (state = initialRoomsState, action: RoomAction | Action): Room[] => {
     switch (action.type) {
-        case 'ADD_ROOM':
-            return [...state, (action as AddRoomAction).payload];
+        case 'ADD_ROOM': {
+            // Compute new ID by taking the maximum current id and adding 1.
+            const newId = state.length > 0 ? Math.max(...state.map(r => r.id)) + 1 : 1;
+            const newRoom = (action as AddRoomAction).payload;
+            newRoom.id = newId;
+            return [...state, { ...(newRoom), id: newId }];
+        }
         case 'REMOVE_ROOM':
             return state.filter(room => room.id !== (action as RemoveRoomAction).payload.id);
         case 'UPDATE_ROOM':

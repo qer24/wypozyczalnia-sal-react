@@ -13,8 +13,8 @@ export function LoginForm() {
             password: '',
         },
         validate: {
-            login: (value) => (value.length >= 3 ? null : 'Login is too short'),
-            password: (value) => (value.length >= 6 ? null : 'Password is too short'),
+            login: (value) => (value.length >= 3 ? null : 'Nazwa użytkownika jest za krótka'),
+            password: (value) => (value.length >= 6 ? null : 'Hasło jest za krótkie'),
         },
     });
 
@@ -24,8 +24,8 @@ export function LoginForm() {
             navigate('/?login-success=true'); // Simple query string
         } else {
             form.setErrors({
-                login: 'Invalid credentials',
-                password: 'Invalid credentials'
+                login: 'Nieprawidłowe dane',
+                password: 'Nieprawidłowe dane',
             });
         }
     };
@@ -51,7 +51,7 @@ export function LoginForm() {
                     {...form.getInputProps('password')}
                 />
                 <Group justify="center" mt="xl">
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit">Zaloguj</Button>
                 </Group>
             </form>
         </Container>
