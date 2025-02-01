@@ -8,10 +8,7 @@ export function ThemeSwitchButton() {
         <ActionIcon
             title="Toggle color scheme"
             onClick={toggleColorScheme}
-            aria-label="Toggle color scheme"
-            variant="hover"
-            color="gray"
-            size="lg">
+            aria-label="Toggle color scheme">
 
             {colorScheme === 'dark' ? (
                 <IconMoon />

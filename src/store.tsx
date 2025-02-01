@@ -7,7 +7,18 @@ import { Reservation } from "./interfaces/reservation.tsx";
 import { Room } from "./interfaces/room.tsx";
 
 // Amenities initial state
-const initialAmenitiesState: Amenity[] = [];
+const initialAmenitiesState: Amenity[] = [
+    { id: 1, name: 'Projektor', description: 'Projektor do wyświetlania obrazów' },
+    { id: 2, name: 'WiFi', description: 'Dostęp do internetu' },
+    { id: 3, name: 'Klimatyzacja', description: 'Klimatyzacja w sali' },
+    { id: 4, name: 'Tablica', description: 'Tablica do pisania' },
+    { id: 5, name: 'Głośniki', description: 'Głośniki do odtwarzania dźwięku' },
+    { id: 6, name: 'Mikrofon', description: 'Mikrofon do mówienia' },
+    { id: 7, name: 'Laptop', description: 'Laptop do prezentacji' },
+    { id: 8, name: 'Telewizor', description: 'Telewizor do wyświetlania obrazów' },
+    { id: 9, name: 'Flipchart', description: 'Flipchart do pisania' },
+    { id: 10, name: 'Kamera', description: 'Kamera do nagrywania' },
+];
 
 // Define action types
 interface AddAmenityAction extends Action<'ADD_AMENITY'> {
@@ -25,7 +36,7 @@ interface UpdateAmenityAction extends Action<'UPDATE_AMENITY'> {
 type AmenityAction = AddAmenityAction | RemoveAmenityAction | UpdateAmenityAction;
 
 // Amenities reducer
-const amenitiesReducer = (state = initialAmenitiesState, action: AmenityAction | Action): Amenity[] => {
+const amenities = (state = initialAmenitiesState, action: AmenityAction | Action): Amenity[] => {
     switch (action.type) {
         case 'ADD_AMENITY':
             return [...state, (action as AddAmenityAction).payload];
@@ -59,7 +70,7 @@ interface UpdateReservationAction extends Action<'UPDATE_RESERVATION'> {
 type ReservationAction = AddReservationAction | RemoveReservationAction | UpdateReservationAction;
 
 // Reservations reducer
-const reservationsReducer = (state = initialReservationsState, action: ReservationAction | Action): Reservation[] => {
+const reservations = (state = initialReservationsState, action: ReservationAction | Action): Reservation[] => {
     switch (action.type) {
         case 'ADD_RESERVATION':
             return [...state, (action as AddReservationAction).payload];
@@ -93,7 +104,7 @@ interface UpdateRoomAction extends Action<'UPDATE_ROOM'> {
 type RoomAction = AddRoomAction | RemoveRoomAction | UpdateRoomAction;
 
 // Rooms reducer
-const roomsReducer = (state = initialRoomsState, action: RoomAction | Action): Room[] => {
+const rooms = (state = initialRoomsState, action: RoomAction | Action): Room[] => {
     switch (action.type) {
         case 'ADD_ROOM':
             return [...state, (action as AddRoomAction).payload];
@@ -109,17 +120,17 @@ const roomsReducer = (state = initialRoomsState, action: RoomAction | Action): R
 };
 
 // Define the RootState type
-type RootState = {
-    amenitiesReducer: Amenity[];
-    reservationsReducer: Reservation[];
-    roomsReducer: Room[];
+export type RootState = {
+    amenities: Amenity[];
+    reservations: Reservation[];
+    rooms: Room[];
 };
 
 // Combine reducers
 const rootReducer = combineReducers({
-    amenitiesReducer,
-    reservationsReducer,
-    roomsReducer,
+    amenities,
+    reservations,
+    rooms,
 });
 
 // Persist configuration
