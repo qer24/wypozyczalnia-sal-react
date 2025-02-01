@@ -6,6 +6,7 @@ import {modals} from "@mantine/modals";
 import {Room} from "./interfaces/room.tsx";
 import {RootState} from "./store.tsx";
 import {useAuth} from "./AuthContext.tsx";
+import {notifications} from "@mantine/notifications";
 
 export function RoomAddButton() {
     const amenities = useSelector((state: RootState) => state.amenities);
@@ -25,6 +26,13 @@ export function RoomAddButton() {
         }
         dispatch({ type: 'ADD_ROOM', payload: newRoom });
         modals.closeAll();
+
+        notifications.show({
+            title: 'Sala dodana',
+            message: 'Sala została dodana pomyślnie',
+            position: 'top-left',
+            autoClose: 2000,
+        });
     }
 
     if (!user) {

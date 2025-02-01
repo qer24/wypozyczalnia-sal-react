@@ -10,6 +10,7 @@ import {modals} from "@mantine/modals";
 import {useAuth} from "./AuthContext.tsx";
 import {useMemo, useState} from "react";
 import {RoomDetails} from "./RoomDetails.tsx";
+import {notifications} from "@mantine/notifications";
 
 export function RoomList() {
     const rooms = useSelector((state: RootState) => state.rooms);
@@ -103,11 +104,25 @@ export function RoomList() {
         dispatch({ type: 'UPDATE_ROOM', payload: updatedRoom });
 
         modals.closeAll();
+
+        notifications.show({
+            title: 'Sala zaktualizowana',
+            message: 'Sala została zaktualizowana pomyślnie',
+            position: 'top-left',
+            autoClose: 2000,
+        });
     }
 
     const onDelete = (id: number) => {
         console.log(`Deleting room with id ${id}`);
         dispatch({ type: 'REMOVE_ROOM', payload: { id: id } });
+
+        notifications.show({
+            title: 'Sala usunięta',
+            message: 'Sala została usunięta pomyślnie',
+            position: 'top-left',
+            autoClose: 2000,
+        });
     }
 
     return (

@@ -8,6 +8,7 @@ import {RoomDetails} from "./RoomDetails.tsx";
 import {RootState} from "./store.tsx";
 import {IconTrash} from "@tabler/icons-react";
 import {useAuth} from "./AuthContext.tsx";
+import {notifications} from "@mantine/notifications";
 
 interface RoomReservationsListProps {
     room: Room;
@@ -61,11 +62,25 @@ export function RoomReservationsList({ room } : RoomReservationsListProps) {
             children: <RoomDetails room={ room } />,
             size: 'xl',
         });
+
+        notifications.show({
+            title: 'Rezerwacja dodana',
+            message: 'Rezerwacja została dodana pomyślnie',
+            position: 'top-left',
+            autoClose: 2000,
+        });
     }
 
     const removeReservation = (id: number) => {
         console.log(`Deleting reservation with id ${id}`);
         dispatch({ type: 'REMOVE_RESERVATION', payload: { id: id } });
+
+        notifications.show({
+            title: 'Rezerwacja usunięta',
+            message: 'Rezerwacja została usunięta pomyślnie',
+            position: 'top-left',
+            autoClose: 2000,
+        });
     }
 
     return (

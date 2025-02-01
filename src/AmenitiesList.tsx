@@ -8,6 +8,7 @@ import {IconLibraryPlus} from "@tabler/icons-react";
 import {AmenityForm} from "./AmenityForm.tsx";
 import {modals} from "@mantine/modals";
 import {useAuth} from "./AuthContext.tsx";
+import {notifications} from "@mantine/notifications";
 
 export function AmenitiesList() {
     const amenities = useSelector((state: RootState) => state.amenities);
@@ -17,6 +18,13 @@ export function AmenitiesList() {
     function handleDelete(id: number) {
         console.log(`Deleting amenity with id ${id}`);
         dispatch({ type: 'REMOVE_AMENITY', payload: { id: id } });
+
+        notifications.show({
+            title: 'Udogodnienie usunięte',
+            message: 'Udogodnienie zostało usunięte pomyślnie',
+            position: 'top-left',
+            autoClose: 2000,
+        });
     }
 
     function handleEdit(id: number) {
@@ -44,6 +52,13 @@ export function AmenitiesList() {
             children: <AmenitiesList />,
             size: 'lg',
         });
+
+        notifications.show({
+            title: 'Udogodnienie zaktualizowane',
+            message: 'Udogodnienie zostało zaktualizowane pomyślnie',
+            position: 'top-left',
+            autoClose: 2000,
+        });
     }
 
     const onFormAdd = (values: any) => {
@@ -59,6 +74,13 @@ export function AmenitiesList() {
             title: <strong>Udogodnienia</strong>,
             children: <AmenitiesList />,
             size: 'lg',
+        });
+
+        notifications.show({
+            title: 'Udogodnienie dodane',
+            message: 'Udogodnienie zostało dodane pomyślnie',
+            position: 'top-left',
+            autoClose: 2000,
         });
     }
 
