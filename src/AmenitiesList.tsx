@@ -18,7 +18,30 @@ export function AmenitiesList() {
     }
 
     function handleEdit(id: number) {
-        console.log(`Editing amenity with id ${id}`);
+        const existingAmenity = amenities.find(amenity => amenity.id === id);
+        modals.open({
+            title: <strong>Edytowanie</strong>,
+            children: <AmenityForm
+                onSubmit={(values: any) => onFormEdit(values, existingAmenity)}
+                existingAmenity={existingAmenity}
+                buttonLabel='Akceptuj'/>,
+        });
+    }
+
+    const onFormEdit = (values: any, existingAmenity: any) => {
+        console.log('Editing amenity', existingAmenity, values);
+        const updatedAmenity: Amenity = {
+            id: existingAmenity.id,
+            name: values.name,
+            description: values.description,
+        }
+        dispatch({ type: 'UPDATE_AMENITY', payload: updatedAmenity });
+        modals.closeAll();
+        modals.open({
+            title: <strong>Udogodnienia</strong>,
+            children: <AmenitiesList />,
+            size: 'lg',
+        });
     }
 
     const onFormAdd = (values: any) => {

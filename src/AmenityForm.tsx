@@ -4,16 +4,17 @@ import {ReactNode} from "react";
 
 interface AmenityFormProps {
     onSubmit: any;
+    existingAmenity?: any;
     buttonLabel?: string;
     buttonIcon?: ReactNode;
 }
 
-export function AmenityForm({ onSubmit, buttonLabel, buttonIcon }: AmenityFormProps) {
+export function AmenityForm({ onSubmit, buttonLabel, buttonIcon, existingAmenity}: AmenityFormProps) {
     const form = useForm({
         mode: 'uncontrolled',
         initialValues: {
-            name: '',
-            description: '',
+            name: existingAmenity ? existingAmenity.name : '',
+            description: existingAmenity ? existingAmenity.description : '',
         },
         validate: {
             name: (value) => (value.length >= 2 ? null : 'Nazwa jest za krótka'),
