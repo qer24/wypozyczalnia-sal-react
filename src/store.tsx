@@ -80,8 +80,14 @@ const reservations = (state = initialReservationsState, action: ReservationActio
         case 'ADD_RESERVATION': {
             // Compute new ID by taking the maximum current id and adding 1.
             const newId = state.length > 0 ? Math.max(...state.map(r => r.id)) + 1 : 1;
-            const newReservation = (action as AddReservationAction).payload;
-            newReservation.id = newId;
+            const payload = (action as AddReservationAction).payload;
+
+            // Convert ISO strings to Dates
+            const newReservation: Reservation = {
+                ...payload,
+                id: newId
+            };
+
             return [...state, { ...(newReservation), id: newId }];
         }
         case 'REMOVE_RESERVATION':
@@ -151,7 +157,7 @@ const rootReducer = combineReducers({
 // Persist configuration
 const persistConfig = {
     key: 'root',
-    storage,
+    storage
 };
 
 const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
