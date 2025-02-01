@@ -2,6 +2,7 @@
 import {Button} from "@mantine/core";
 import {useAuth} from "./AuthContext.tsx";
 import { useNavigate } from "react-router";
+import {notifications} from "@mantine/notifications";
 
 export function LoginButton() {
     const { user, logout } = useAuth();
@@ -14,6 +15,13 @@ export function LoginButton() {
     const handleLogout = () => {
         logout();
         navigate('/'); // Redirect to home after logout
+
+        notifications.show({
+            title: 'Wylogowane',
+            message: 'Zostałeś pomyślnie wylogowany/a',
+            position: 'top-left',
+            autoClose: 2000,
+        });
     };
 
     if (user)

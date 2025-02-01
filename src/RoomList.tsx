@@ -7,11 +7,13 @@ import {Amenity} from "./interfaces/amenity.tsx";
 import {ShowModalButton} from "./ShowModalButton.tsx";
 import {RoomForm} from "./RoomForm.tsx";
 import {modals} from "@mantine/modals";
+import {useAuth} from "./AuthContext.tsx";
 
 export function RoomList() {
     const rooms = useSelector((state: RootState) => state.rooms);
     const amenities = useSelector((state: RootState) => state.amenities);
     const dispatch = useDispatch();
+    const { user } = useAuth();
 
     const getUdogodnienia = (room: Room) => {
         console.log(room.udogodnienia);
@@ -41,14 +43,16 @@ export function RoomList() {
                 {getUdogodnienia(room)}
             </Table.Td>
             <Table.Td>
-                <Group>
-                    <ShowModalButton modalChildren={ <RoomForm
-                        onSubmit={(values: any) => onEdit(values, room)}
-                        existingRoom={room}
-                        buttonLabel='Akceptuj'/>
-                    } buttonIcon={ <IconEdit /> }/>
-                    <ActionIcon aria-label="Delete" onClick={() => onDelete(room.id)}> <IconTrash /> </ActionIcon>
-                </Group>
+                {user && (
+                    <Group>
+                        <ShowModalButton modalChildren={ <RoomForm
+                            onSubmit={(values: any) => onEdit(values, room)}
+                            existingRoom={room}
+                            buttonLabel='Akceptuj'/>
+                        } buttonIcon={ <IconEdit /> }/>
+                        <ActionIcon aria-label="Delete" onClick={() => onDelete(room.id)}> <IconTrash /> </ActionIcon>
+                    </Group>
+                )}
             </Table.Td>
         </Table.Tr>
     ));

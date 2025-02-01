@@ -5,10 +5,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {modals} from "@mantine/modals";
 import {Room} from "./interfaces/room.tsx";
 import {RootState} from "./store.tsx";
+import {useAuth} from "./AuthContext.tsx";
 
 export function RoomAddButton() {
     const amenities = useSelector((state: RootState) => state.amenities);
     const dispatch = useDispatch();
+    const { user } = useAuth();
 
     const onFormAdd = (values: any) => {
         console.log('Adding room', values);
@@ -23,6 +25,10 @@ export function RoomAddButton() {
         }
         dispatch({ type: 'ADD_ROOM', payload: newRoom });
         modals.closeAll();
+    }
+
+    if (!user) {
+        return null;
     }
 
     return (
