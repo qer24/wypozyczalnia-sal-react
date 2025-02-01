@@ -1,10 +1,11 @@
 ﻿import {useForm} from "@mantine/form";
 import {Button, Group, Stack, TextInput} from "@mantine/core";
 import {ReactNode} from "react";
+import {Amenity} from "./interfaces/amenity.tsx";
 
 interface AmenityFormProps {
     onSubmit: any;
-    existingAmenity?: any;
+    existingAmenity?: Amenity;
     buttonLabel?: string;
     buttonIcon?: ReactNode;
 }

@@ -1,12 +1,12 @@
 ﻿import { modals } from "@mantine/modals";
-import {Button} from "@mantine/core";
+import {ActionIcon, Button} from "@mantine/core";
 import {ReactNode} from "react";
 
 interface ShowModalButtonProps {
     modalTitle?: string;
     modalChildren: ReactNode;
     buttonIcon?: ReactNode;
-    buttonText: string;
+    buttonText?: string;
     size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
@@ -18,6 +18,12 @@ export function ShowModalButton({ modalTitle, modalChildren, buttonIcon, buttonT
             size: size,
         });
     };
+
+    if (!buttonText) {
+        return (
+            <ActionIcon onClick={openPropsModal}>{buttonIcon}</ActionIcon>
+        )
+    }
 
     return (
         <Button rightSection={buttonIcon} onClick={openPropsModal}>{buttonText}</Button>

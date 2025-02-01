@@ -13,6 +13,8 @@ import {Notifications} from "@mantine/notifications";
 import {ShowModalButton} from "./ShowModalButton.tsx";
 import {IconFileInfo} from "@tabler/icons-react";
 import {AmenitiesList} from "./AmenitiesList.tsx";
+import {RoomList} from "./RoomList.tsx";
+import {RoomAddButton} from "./RoomAddButton.tsx";
 
 const theme = createTheme({
     fontFamily: 'Open Sans, serif',
@@ -49,9 +51,10 @@ export default function App() {
                                         modalChildren={ <AmenitiesList /> }
                                         buttonIcon={ <IconFileInfo /> }
                                         buttonText='Przeglądaj udogodnienia'
-                                        size='lg'
-                                    />
+                                        size='lg'/>
+                                    <RoomAddButton />
                                 </div>
+                                <RoomList />
                             </Stack>
                         </>
                     } />

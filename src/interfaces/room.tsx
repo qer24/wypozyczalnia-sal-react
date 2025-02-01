@@ -5,6 +5,6 @@ export interface Room {
     id: number,
     nazwa: string,
     pojemnosc: number,
-    udogodnienia: Amenity[],
-    rezerwacje: Reservation[]
+    udogodnienia?: Amenity[],
+    rezerwacje?: Reservation[]
 }
