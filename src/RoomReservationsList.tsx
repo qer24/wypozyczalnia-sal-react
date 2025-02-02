@@ -21,7 +21,12 @@ export function RoomReservationsList({ room } : RoomReservationsListProps) {
 
     const roomReservations = reservations.filter((reservation) => reservation.roomId === room.id);
 
-    const reservationsRows = roomReservations.map((reservation) => (
+    const sortedReservations = roomReservations.sort(
+        (a, b) =>
+            new Date(a.startDateTime).getTime() - new Date(b.startDateTime).getTime()
+    );
+
+    const reservationsRows = sortedReservations.map((reservation) => (
         <Table.Tr key={reservation.id}>
             {user && (
                 <Table.Td>{reservation.id}</Table.Td>
