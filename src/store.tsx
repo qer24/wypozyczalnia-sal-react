@@ -59,7 +59,7 @@ const amenities = (state = initialAmenitiesState, action: AmenityAction | Action
 // Reservations initial state
 const initialReservationsState: Reservation[] = [];
 
-// Define action types
+// Define action types dla rezerwacji
 interface AddReservationAction extends Action<'ADD_RESERVATION'> {
     payload: Reservation;
 }
@@ -78,33 +78,38 @@ type ReservationAction = AddReservationAction | RemoveReservationAction | Update
 const reservations = (state = initialReservationsState, action: ReservationAction | Action): Reservation[] => {
     switch (action.type) {
         case 'ADD_RESERVATION': {
-            // Compute new ID by taking the maximum current id and adding 1.
+            // Wyznacz nowy ID na podstawie maksymalnego istniejącego ID
             const newId = state.length > 0 ? Math.max(...state.map(r => r.id)) + 1 : 1;
             const payload = (action as AddReservationAction).payload;
-
-            // Convert ISO strings to Dates
             const newReservation: Reservation = {
                 ...payload,
                 id: newId
             };
-
-            return [...state, { ...(newReservation), id: newId }];
+            return [...state, { ...newReservation, id: newId }];
         }
         case 'REMOVE_RESERVATION':
             return state.filter(reservation => reservation.id !== (action as RemoveReservationAction).payload.id);
         case 'UPDATE_RESERVATION':
             return state.map(reservation =>
-                reservation.id === (action as UpdateReservationAction).payload.id ? { ...reservation, ...(action as UpdateReservationAction).payload } : reservation
+                reservation.id === (action as UpdateReservationAction).payload.id
+                    ? { ...reservation, ...(action as UpdateReservationAction).payload }
+                    : reservation
+            );
+        // Nowy przypadek: przy usuwaniu sali usuwamy również rezerwacje, których roomId odpowiada usuwanej sali.
+        case 'REMOVE_ROOM':
+            return state.filter(
+                reservation => reservation.roomId !== (action as { payload: { id: number }; type: 'REMOVE_ROOM' }).payload.id
             );
         default:
             return state;
     }
 };
 
+
 // Rooms initial state
 const initialRoomsState: Room[] = [];
 
-// Define action types
+// Define action types dla sal
 interface AddRoomAction extends Action<'ADD_ROOM'> {
     payload: Room;
 }
@@ -123,11 +128,10 @@ type RoomAction = AddRoomAction | RemoveRoomAction | UpdateRoomAction;
 const rooms = (state = initialRoomsState, action: RoomAction | Action): Room[] => {
     switch (action.type) {
         case 'ADD_ROOM': {
-            // Compute new ID by taking the maximum current id and adding 1.
             const newId = state.length > 0 ? Math.max(...state.map(r => r.id)) + 1 : 1;
             const newRoom = (action as AddRoomAction).payload;
             newRoom.id = newId;
-            return [...state, { ...(newRoom), id: newId }];
+            return [...state, { ...newRoom, id: newId }];
         }
         case 'REMOVE_ROOM':
             return state.filter(room => room.id !== (action as RemoveRoomAction).payload.id);
@@ -139,6 +143,7 @@ const rooms = (state = initialRoomsState, action: RoomAction | Action): Room[] =
             return state;
     }
 };
+
 
 // Define the RootState type
 export type RootState = {
