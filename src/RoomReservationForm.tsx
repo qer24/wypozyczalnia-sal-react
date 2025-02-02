@@ -69,8 +69,6 @@ export function RoomReservationForm({ onSubmit }: ReservationFormProps) {
                 const overlappingReservation = existingReservations.find((reservation) => {
                     const existingStart = new Date(reservation.startDateTime);
                     const existingEnd = new Date(reservation.endDateTime);
-                    // Nowa rezerwacja nachodzi, jeśli:
-                    // nowa.dataPoczątkowa < istniejąca.dataKońcowa && nowa.dataKońcowa > istniejąca.dataPoczątkowa
                     return values.start! < existingEnd && values.end! > existingStart;
                 });
                 if (overlappingReservation) {
