@@ -35,10 +35,10 @@ export function RoomReservationForm({ onSubmit }: ReservationFormProps) {
 
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
-    const data = form.getValues();
+    //const data = form.getValues();
 
     return (
-        <form onSubmit={form.onSubmit(() => onSubmit(data))}>
+        <form onSubmit={form.onSubmit((values) => onSubmit(values))}>
             <Stack>
                 <TextInput
                     placeholder="Imię"
