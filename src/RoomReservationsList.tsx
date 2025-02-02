@@ -14,10 +14,10 @@ interface RoomReservationsListProps {
     room: Room;
 }
 
-export function RoomReservationsList({ room } : RoomReservationsListProps) {
+export function RoomReservationsList({room}: RoomReservationsListProps) {
     const dispatch = useDispatch();
     const reservations = useSelector((state: RootState) => state.reservations);
-    const { user } = useAuth();
+    const {user} = useAuth();
 
     const roomReservations = reservations.filter((reservation) => reservation.roomId === room.id);
 
@@ -31,15 +31,15 @@ export function RoomReservationsList({ room } : RoomReservationsListProps) {
             {user && (
                 <Table.Td>{reservation.id}</Table.Td>
             )}
-            <Table.Td>{reservation.imie}</Table.Td>
-            <Table.Td>{reservation.nazwisko}</Table.Td>
-            <Table.Td>{reservation.email}</Table.Td>
+            {user && <Table.Td>{reservation.imie}</Table.Td>}
+            {user && <Table.Td>{reservation.nazwisko}</Table.Td>}
+            {user && <Table.Td>{reservation.email}</Table.Td>}
             <Table.Td>{new Date(reservation.startDateTime).toLocaleString()}</Table.Td>
             <Table.Td>{new Date(reservation.endDateTime).toLocaleString()}</Table.Td>
             {user && (
                 <Table.Td>
                     <ActionIcon aria-label="Delete" onClick={() => removeReservation(reservation.id)}>
-                        <IconTrash />
+                        <IconTrash/>
                     </ActionIcon>
                 </Table.Td>
             )}
@@ -59,12 +59,12 @@ export function RoomReservationsList({ room } : RoomReservationsListProps) {
             endDateTime: values.end?.toISOString()
         }
 
-        dispatch({ type: 'ADD_RESERVATION', payload: newReservation });
+        dispatch({type: 'ADD_RESERVATION', payload: newReservation});
 
         modals.closeAll();
         modals.open({
             title: <strong>Rezerwacje</strong>,
-            children: <RoomDetails room={ room } />,
+            children: <RoomDetails room={room}/>,
             size: 'xl',
         });
 
@@ -78,7 +78,7 @@ export function RoomReservationsList({ room } : RoomReservationsListProps) {
 
     const removeReservation = (id: number) => {
         console.log(`Deleting reservation with id ${id}`);
-        dispatch({ type: 'REMOVE_RESERVATION', payload: { id: id } });
+        dispatch({type: 'REMOVE_RESERVATION', payload: {id: id}});
 
         notifications.show({
             title: 'Rezerwacja usunięta',
@@ -97,9 +97,9 @@ export function RoomReservationsList({ room } : RoomReservationsListProps) {
                         {user && (
                             <Table.Th>ID</Table.Th>
                         )}
-                        <Table.Th>Imię</Table.Th>
-                        <Table.Th>Nazwisko</Table.Th>
-                        <Table.Th>Email</Table.Th>
+                        {user && <Table.Th>Imię</Table.Th>}
+                        {user && <Table.Th>Nazwisko</Table.Th>}
+                        {user && <Table.Th>Email</Table.Th>}
                         <Table.Th>Data rozpoczęcia</Table.Th>
                         <Table.Th>Data zakończenia</Table.Th>
                         {user && (
@@ -112,7 +112,8 @@ export function RoomReservationsList({ room } : RoomReservationsListProps) {
                 </Table.Tbody>
             </Table>
             <Group justify='center'>
-                <ShowModalButton modalChildren={ <RoomReservationForm onSubmit={addReservation} />} buttonText='Nowa rezerwacja' />
+                <ShowModalButton modalChildren={<RoomReservationForm onSubmit={addReservation}/>}
+                                 buttonText='Nowa rezerwacja'/>
             </Group>
         </>
     );
